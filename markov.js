@@ -21,9 +21,9 @@ class MarkovMachine {
     for (let i = 0; i < this.words.length; i++) {
       const currWord = this.words[i];
       const nextWord = this.words[i + 1] !== undefined? this.words[i + 1]: null;
-
+      
       if (chains[currWord]) {
-        chains[currWord].push(nextWord);
+        if (chains[currWord].indexOf(nextWord) === -1) chains[currWord].push(nextWord);
       } else {
         chains[currWord] = [nextWord];
       }
@@ -44,10 +44,12 @@ class MarkovMachine {
       text += `${currWord} `;
       const nextWords = this.chains[currWord];
       currWord = nextWords[Math.floor(Math.random()*nextWords.length)];
-      
+
       if (currWord === null) break;
     }
 
-    return text;
+    return text.slice(0, -1);
   }
 }
+
+module.exports = {MarkovMachine};
